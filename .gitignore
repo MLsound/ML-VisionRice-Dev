@@ -1,0 +1,15 @@
+# Ignore Jupyter Notebook checkpoints
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.pyo
+*.psd
+*.jpg
+*.png
+Image preprocessing/jpeg_decompress.py
+
+# Ignore large datasets and logs
+Line detection/BU
+Tagging/BU
+Image preprocessing/scale ref
