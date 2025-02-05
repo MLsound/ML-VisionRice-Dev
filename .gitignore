@@ -1,15 +1,20 @@
-# Ignore Jupyter Notebook checkpoints
+# Ignore Jupyter Notebook checkpoints and system files
 .DS_Store
 .ipynb_checkpoints/
 __pycache__/
+.venv/
+.env/
+
+# Ignore large size files (stored on the cloud)
 *.pyc
 *.pyo
 *.psd
 *.jpg
 *.png
-Image preprocessing/jpeg_decompress.py
 
-# Ignore large datasets and logs
+
+# Ignore local buck-up folders created for development tests
+Image preprocessing/jpeg_decompress.py
+Image preprocessing/scale ref
 Line detection/BU
 Tagging/BU
-Image preprocessing/scale ref
