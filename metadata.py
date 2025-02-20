@@ -1,5 +1,3 @@
-# ../images/raw/Eryx/101MEDIA/2 utiles/
-
 import os
 import exifread
 import geopy.distance
