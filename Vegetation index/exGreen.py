@@ -8,7 +8,7 @@
 # Setting applied for soil images (mask for removing plants):
 # '/data/raw/soil/Soil1.jpg'
 # '/data/raw/soil/Soil2.jpg'
-# python exGreen.py -i '../../data/raw/soil/Soil2.jpg' -t p90 -dn -inv
+# python exGreen.py -i '../../data/raw/soil/Soil1.jpg' -t 80 -inv -dn -m
 
 
 import cv2
@@ -90,17 +90,36 @@ def apply_morphological_ops(image, kernel_size):
 
     return closing
 
+def apply_mask_to_image(original_image, mask):
+    """Applies a binary mask to a color image."""
+    # Ensure mask is binary (0 or 255) and single channel
+    if len(mask.shape) == 3:
+         mask = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)
+         print("Warning: Mask was 3-channel, converted to grayscale for applying.")
 
-def process_image(input_path, output_path, threshold=None, inverse=False, use_denoiser=False):
+    # Ensure mask is the same size as the original image
+    if original_image.shape[:2] != mask.shape[:2]:
+         print("Error: Original image and mask dimensions do not match. Cannot apply mask.")
+         return None # Return None on error
+
+    # Apply the mask: keep pixels from original_image where mask is non-zero (255)
+    # The mask argument in bitwise_and expects a single channel image
+    masked_image = cv2.bitwise_and(original_image, original_image, mask=mask)
+    print("Mask applied to original image.")
+    return masked_image
+
+def process_image(input_path, output_file, ext, threshold=None, inverse=False, use_denoiser=False, apply_mask=False):
     """
     Reads an image, calculates ExG, applies optional denoising, threshold, and inverse.
 
     Args:
         input_path (str): Path to the input image file.
         output_path (str): Path to save the processed image file.
+        ext (str): File extension of the output image.
         threshold (float or str): Threshold value or percentile for ExG. If provided, applies thresholding.
         inverse (bool): If True, inverts the binary image (white becomes black and vice versa).
         use_denoiser (bool): If True, applies predefined Gaussian and Morphological denoising.
+        apply_mask (bool): If True, applies the generated mask to the original input image.
 
     Returns:
         bool: True if processing was successful, False otherwise.
@@ -119,6 +138,9 @@ def process_image(input_path, output_path, threshold=None, inverse=False, use_de
 
     h, w, _ = img_bgr.shape
     print(f"Image dimensions: {w}x{h}")
+
+    # Store original image for potential masking later
+    original_img_color = img_bgr.copy()
 
     # Convert to float32 for calculations
     img_bgr_float = img_bgr.astype(np.float32)
@@ -163,7 +185,7 @@ def process_image(input_path, output_path, threshold=None, inverse=False, use_de
     # --- Apply Morphological Ops if denoiser used and threshold was applied ---
     if use_denoiser and is_binary:
         morph_ksize = 5
-        processed_img = apply_morphological_ops(processed_img, morph_ksize)
+        #processed_img = apply_morphological_ops(processed_img, morph_ksize)
         print("Morphological operations applied.")
 
     # --- 3. Apply inverse if specified ---
@@ -174,14 +196,37 @@ def process_image(input_path, output_path, threshold=None, inverse=False, use_de
         processed_img = cv2.bitwise_not(processed_img)
 
     # --- 4. Save the output image ---
+    output_path = f'{output_file}{ext}'
     print(f"Saving processed image to: {output_path}")
     try:
         cv2.imwrite(output_path, processed_img)
         print("Image saved successfully.")
-        return True
+        save_success = True
     except Exception as e:
-        print(f"Error saving image: {e}")
-        return False
+        print(f"Error saving mask image: {e}")
+        return False # Stop if mask saving fails
+
+    # --- 5. Apply the mask to the original image if requested ---
+    if apply_mask:
+        if not is_binary:
+            print("Warning: Applying a non-binary mask to the original image. Results may be unexpected.")
+        else:
+            masked_img_color = apply_mask_to_image(original_img_color, processed_img)
+
+            if masked_img_color is not None:
+                masked_output_path = f'{output_file}_masked_original{ext}'
+                print(f"Saving masked original image to: {masked_output_path}")
+                try:
+                    cv2.imwrite(masked_output_path, masked_img_color)
+                    print("Masked original image saved successfully.")
+                except Exception as e:
+                    print(f"Error saving masked original image: {e}")
+                    save_success = False
+            else:
+                save_success = False # Apply mask failed
+            
+    print("Processing complete.")
+    return save_success
 
 # --- Main execution block ---
 from typing import Union
@@ -192,27 +237,30 @@ if __name__ == "__main__":
     parser.add_argument("-t", "--threshold", type=str, help="The 'threshold' value can either be an absolute value (0-255) or indicate a percentile, starting with 'p' followed by the percentile (0-100) (e.g., 'p90' = 90th percentile).")
     parser.add_argument("-inv", "--inverse", action="store_true", help="If specified, inverts the binary image (white becomes black and vice versa). Applies after thresholding.")
     parser.add_argument("-dn", "--denoiser", action="store_true", help="If specified, applies predefined Gaussian (k=7) and Morphological (k=5) denoising.")
+    parser.add_argument("-m", "--export-masked", action="store_true", help="If specified, applies the generated mask to the original input image and saves the result.")
     args = parser.parse_args()
 
     # Determine output path if not provided
     output_file = args.output
     if not output_file:
         base, ext = os.path.splitext(args.input)
+        print(ext)
+        # Ensure output extension is suitable for images if input wasn't typical
+        if ext.lower() not in ['.png', '.jpg', '.jpeg', '.bmp', '.tif', '.tiff']:
+             ext = ".jpg"
         # Append '_processed' and potentially '_denoised' to the filename base
         output_suffix = "_processed"
         if args.denoiser:
             output_suffix += "_denoised"
-        output_file = f"{base}{output_suffix}{ext}"
-        # Ensure output extension is suitable for images if input wasn't typical
-        if ext.lower() not in ['.png', '.jpg', '.jpeg', '.bmp', '.tif', '.tiff']:
-             output_file = f"{base}{output_suffix}.png"
+        output_file = f"{base}{output_suffix}"
 
 
     # Check if input file exists
     if not os.path.exists(args.input):
         print(f"Error: Input file not found at {args.input}")
     else:
-        process_image(args.input, output_file,
+        process_image(args.input, output_file, ext,
                       threshold=args.threshold,
                       inverse=args.inverse,
-                      use_denoiser=args.denoiser)
+                      use_denoiser=args.denoiser,
+                      apply_mask=args.export_masked)
