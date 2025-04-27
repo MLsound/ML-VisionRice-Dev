@@ -1,4 +1,4 @@
-# TESTING: python apply_blendedPCA_dataset.py -i '../../data/samples/3,5m90/'
+# TESTING: python apply_exGreen_dataset.py -i '../../data/samples/3,5m90/'
 # PROCESSING: python apply_exGreen_dataset.py -i '../../data/raw/3.5m.v3i.yolov8.640px/train/images'
 
 import exGreen
