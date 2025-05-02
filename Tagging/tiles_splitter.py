@@ -1,3 +1,5 @@
+# python tiles_splitter.py
+# dataset: 3.5m.v3i.yolov8_blended
 
 # # Tiles Splitter script
 # Script que permite el procesamiento en batch del dataset para dividir cada imagen y sus etiquetas en mosaicos de 'S' píxeles.
@@ -1336,5 +1338,3 @@ if __name__ == '__main__':
         print(f"✅ Procesamiento completo del dataset '{DATASET_NAME}' finalizado correctamente.")
     else:
         print("❗️ Hubo al menos un error procesando los splits.")
-
-# 3.5m.v3i.yolov8_pca
