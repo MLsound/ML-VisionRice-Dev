@@ -4,6 +4,8 @@
 # '../../data/samples/3,5m90/503_118_29.JPG' 
 # '../../data/samples/3,5m90/503_119_43.JPG'
 # python colorPCA.py -i '../../data/samples/3,5m90/209_101_24.JPG'
+# python colorPCA.py -i '../../data/raw/CLAHE/2_209_205_50_JPG.rf.dcf6a84732d63af4945585a50533cd01.jpg'
+# python colorPCA.py -i '../../data/raw/CLAHE/2_503_118_29_JPG.rf.356a3084e7bcdb80995e397f446758c2.jpg'
 
 import cv2
 import numpy as np

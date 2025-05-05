@@ -1,7 +1,13 @@
-# apply_clahe_dataset.py
-# ../../data/raw/3.5m.v3i.yolov8/train/images
+# python apply_clahe_dataset.py
+# ../../data/raw/3.5m.v4i.yolov8.640px/train/images
+# ../../data/raw/3.5m.v4i.yolov8/valid/images
+# ../../data/raw/3.5m.v4i.yolov8_clahe4/valid/images
+# ../../data/processed/3.5m.v4i.yolov8.640px/valid/images
 # ../../data/raw/3.5m.v3i.yolov8/valid/images
 # ../../data/samples/3,5m90/Tests
+# ../../data/final/3.5m.v4i.yolov8_blended.640px_clahe/train/images/
+# ../../data/processed/3.5m.v4i.yolov8_blended.640px
+
 
 import os
 import cv2

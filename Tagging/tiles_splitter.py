@@ -682,7 +682,7 @@ def copy_root():
 
     # ### Eliminación del contenido original
     # Crea el directorio de almacenamiento
-    timestamp()
+    #timestamp()
     print("Removing existing dataset files for images and labels folders…")
     for s in subset_opt:
         for t in type_opt:
@@ -1204,7 +1204,7 @@ def process():
 
     # Option for changing split set during batch execution
     # SUBSET = subset_opt[0] # 0: train / 1: valid
-    timestamp('Dataset settings updated at')
+    #timestamp('Dataset settings updated at')
 
 
     DATASET_NAME = PATH[PATH.find('raw')+4:-1]
@@ -1215,7 +1215,7 @@ def process():
         files = [file for file in files if file != ".DS_Store"]
         files = [file[:-4] for file in files]
 
-        timestamp()
+        #timestamp()
 
         print("Dataset: ", DATASET_NAME)
         print(f"Listing files for '{SUBSET}' set\n")
@@ -1235,7 +1235,7 @@ def process():
         PROCESSING_FILE = file
         print (f'Índice {order}:\n', PROCESSING_FILE)
         print()
-        timestamp()
+        #timestamp()
 
         if order == len(files):
             print("🚨ALERTA: se procesará el último archivo")
@@ -1318,7 +1318,7 @@ if __name__ == '__main__':
     DATASET_NAME = input("Introduce el nombre del dataset: ")
     S = 640 # Tile size
     OUTPUT_SUFFIX = ".640px" # Optional (leave empty if not needed)
-    timestamp('Dataset settings updated at')
+    #timestamp('Dataset settings updated at')
 
 
     # ==========================================================
@@ -1330,7 +1330,7 @@ if __name__ == '__main__':
     sucess = True
     for opt in range(len(subset_opt)):
         SUBSET = subset_opt[opt] # 0: train / 1: valid
-        print("PROCESANDO SUBSET:", SUBSET)
+        print("\nPROCESANDO SUBSET:", SUBSET)
         validation = process()
         sucess *= validation
 

@@ -4,7 +4,7 @@
 # '../../data/samples/3,5m90/503_118_29.JPG' 
 # '../../data/samples/3,5m90/503_119_43.JPG'
 # python colorPCA_BurnBlend.py -i '../../data/samples/3,5m90/503_119_43.JPG'
-# python colorPCA_BurnBlend.py -i '../../data/final/3.5m.v3i.yolov8.640px/train/images/209_101_24_JPG.tile00x00.rf.efc9c66c1f8c7766e5ddd379fe7bf3c7.jpg'
+# python colorPCA_BurnBlend.py -i '../../data/raw/CLAHE/209_205_50_JPG.rf.dcf6a84732d63af4945585a50533cd01.jpg'
 
 import colorPCA
 import BurnBlend

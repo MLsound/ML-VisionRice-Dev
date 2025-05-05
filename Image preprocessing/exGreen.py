@@ -11,6 +11,8 @@
 # python exGreen.py -i '../../data/raw/soil/Soil1.jpg' -t 80 -inv -dn -m
 # python exGreen.py -i '../../data/final/3.5m.v3i.yolov8.640px/train/images/209_101_24_JPG.tile00x00.rf.efc9c66c1f8c7766e5ddd379fe7bf3c7.jpg' -t 80 -inv -dn -m
 
+# python exGreen.py -i '../../data/raw/CLAHE/2_209_205_50_JPG.rf.dcf6a84732d63af4945585a50533cd01.jpg'
+# python exGreen.py -i '../../data/raw/CLAHE/2_503_118_29_JPG.rf.356a3084e7bcdb80995e397f446758c2.jpg'
 
 import cv2
 import numpy as np
