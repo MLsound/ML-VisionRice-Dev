@@ -1,5 +1,5 @@
 # python tiles_splitter.py
-# dataset: 3.5m.v3i.yolov8_blended
+# dataset: 3.5m.v5i.yolov8
 
 # # Tiles Splitter script
 # Script que permite el procesamiento en batch del dataset para dividir cada imagen y sus etiquetas en mosaicos de 'S' píxeles.
@@ -880,8 +880,8 @@ def bb_split(im_fill: np.ndarray, tiles: list, tiles_dim: list):
         
                 # Cálculo de coordenadas de referencia
                 x0, y0, x1, y1 = tile_dim # Pi, Po
-                Pi = (x0, y0)
-                Po = (x1, y1)
+                # Pi = (x0, y0)
+                # Po = (x1, y1)
         
                 print('NUEVO MOSAICO:', "\n", x0, y0, x1, y1, "\n") if verbose else ""
 
@@ -1200,7 +1200,7 @@ def process():
     #Intialize variables
     order = 0
     files = []
-
+    history_time = []
 
     # Option for changing split set during batch execution
     # SUBSET = subset_opt[0] # 0: train / 1: valid
@@ -1232,13 +1232,14 @@ def process():
         print()
 
         # SELECCIONAR ARCHIVO A PROCESAR
+        start_time = time.perf_counter() # Mide tiempo  de ejecución
         PROCESSING_FILE = file
         print (f'Índice {order}:\n', PROCESSING_FILE)
         print()
         #timestamp()
 
         if order == len(files):
-            print("🚨ALERTA: se procesará el último archivo")
+            print("🚨 ALERTA: se procesará el último archivo")
 
         #gimme_filename_info(PROCESSING_FILE)
 
@@ -1271,6 +1272,14 @@ def process():
             print("❗️ Verifique el proceso de guardado de imágenes y etiquetas.")
             success *= False
             #break
+        
+        end_time = time.perf_counter() # Mide tiempo  de ejecución
+        elapsed_time = end_time - start_time
+        history_time.append(elapsed_time)
+    
+    average_time = sum(history_time) / len(history_time) if history_time else 0
+    print(f"⏰ Tiempo promedio de procesamiento por archivo: {average_time:.3f} segundos")
+
     if success:
         print("✅ Todos los archivos se han procesado correctamente.")
         return True
@@ -1278,9 +1287,7 @@ def process():
         print("❗️ Algunos archivos no se han procesado correctamente.")
         print("❗️ Verifique el proceso de guardado de imágenes y etiquetas.")
         return False
-
-
-
+    
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if __name__ == '__main__':
@@ -1305,7 +1312,7 @@ if __name__ == '__main__':
     
 
     # Dataset split to work with
-    subset_opt = ['train','valid']
+    subset_opt = ['train','valid', 'test']
     type_opt = ['image', 'label']
 
     # Should not be defined by user (security)
