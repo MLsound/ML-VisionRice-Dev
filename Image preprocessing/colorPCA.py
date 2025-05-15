@@ -81,13 +81,23 @@ def process_image(input_path, output_path):
     # Scale PC1 and PC2 to 0-255 for visualization
     pc1_scaled = scale_channel(pc1)
     pc2_scaled = scale_channel(pc2)
+
+    # Save PCA channels as separate images for inspection
+    pca1_path = os.path.splitext(output_path)[0] + "_pca1.png"
+    pca2_path = os.path.splitext(output_path)[0] + "_pca2.png"
+    exg_path = os.path.splitext(output_path)[0] + "_exg.png"
+    cv2.imwrite(pca1_path, pc1_scaled)
+    cv2.imwrite(pca2_path, pc2_scaled)
+    cv2.imwrite(exg_path, exg_scaled)
     print(f"PCA complete. Explained variance ratio: {pca.explained_variance_ratio_}")
 
     # --- 3. Combine channels into the output image ---
     # Target: R channel = PC1, G channel = ExG, B channel = PC2
-    # OpenCV's merge expects (Blue, Green, Red) order
-    print("Combining channels: R=PC1, G=ExG, B=PC2")
+    #print("Combining channels: R=PC1, G=ExG, B=PC2")
+    print("Combining channels: R=ExG, G=PC2, B=PC1")
     output_image_bgr = cv2.merge((pc1_scaled, pc2_scaled, exg_scaled))
+    # OpenCV's merge expects (Blue, Green, Red) order
+
 
     # --- 4. Save the output image ---
     print(f"Saving processed image to: {output_path}")

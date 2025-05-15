@@ -3,7 +3,7 @@
 # '../../data/samples/3,5m90/209_101_24.JPG'
 # '../../data/samples/3,5m90/503_118_29.JPG' 
 # '../../data/samples/3,5m90/503_119_43.JPG'
-# python colorPCA_BurnBlend.py -i '../../data/samples/3,5m90/503_119_43.JPG'
+# python colorPCA_BurnBlend.py -i '../../data/samples/3,5m90/209_101_24.JPG' -pca
 # python colorPCA_BurnBlend.py -i '../../data/raw/CLAHE/209_205_50_JPG.rf.dcf6a84732d63af4945585a50533cd01.jpg'
 
 import colorPCA
