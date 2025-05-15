@@ -92,7 +92,7 @@ def process_image(input_path, output_path):
     print(f"PCA complete. Explained variance ratio: {pca.explained_variance_ratio_}")
 
     # --- 3. Combine channels into the output image ---
-    # Target: R channel = PC1, G channel = ExG, B channel = PC2
+    # Target: R channel = ExG, G channel = PC2, B channel = PC1
     #print("Combining channels: R=PC1, G=ExG, B=PC2")
     print("Combining channels: R=ExG, G=PC2, B=PC1")
     output_image_bgr = cv2.merge((pc1_scaled, pc2_scaled, exg_scaled))
