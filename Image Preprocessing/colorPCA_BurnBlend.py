@@ -10,6 +10,7 @@ import colorPCA
 import BurnBlend
 import argparse
 import os
+import time
 
 def create_dir(path):
     try:
@@ -20,6 +21,7 @@ def create_dir(path):
 
 def process_image(input_path, output_file, output_dir = 'BurnBlend', save_pca = False):
     
+    start_time = time.perf_counter() # Mide tiempo  de ejecución
     if output_dir is None:
         defined_output_dir = False
         output_dir = 'BurnBlend'
@@ -78,6 +80,10 @@ def process_image(input_path, output_file, output_dir = 'BurnBlend', save_pca = 
             print(f"Intermediate PCA file {output_pca_file} deleted.")
         except Exception as e:
             print(f"Error deleting PCA file: {e}")
+        
+    end_time = time.perf_counter() # Mide tiempo  de ejecución
+    total_time = end_time - start_time
+    print(f"⏰ Tiempo total de procesamiento: {total_time:.3f} segundos")
 
 
 # --- Main execution block ---
