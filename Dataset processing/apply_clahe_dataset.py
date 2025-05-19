@@ -8,11 +8,15 @@
 # ../../data/final/3.5m.v4i.yolov8_blended.640px_clahe/train/images/
 # ../../data/processed/3.5m.v4i.yolov8_blended.640px
 
+# ../../data/raw/prueba/
+
 
 import os
 import cv2
 import numpy as np
 from tqdm import tqdm
+import time
+history_time = []
 
 def apply_clahe(image_path, clip_limit=2.0, tile_grid_size=(8, 8)):
     """
@@ -69,6 +73,9 @@ def apply_clahe_to_dataset(dataset_path, output_path, clip_limit=2.0, tile_grid_
     image_files = [f for f in os.listdir(dataset_path) if os.path.isfile(os.path.join(dataset_path, f)) and f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff', '.webp'))]
 
     for image_file in tqdm(image_files, desc="Applying CLAHE"):
+        # Start of loop turn
+        start_time = time.perf_counter() # Mide tiempo  de ejecución
+        
         input_image_path = os.path.join(dataset_path, image_file)
         output_image_path = os.path.join(output_path, image_file)
 
@@ -79,7 +86,11 @@ def apply_clahe_to_dataset(dataset_path, output_path, clip_limit=2.0, tile_grid_
                 cv2.imwrite(output_image_path, equalized_img)
             except Exception as e:
                 print(f"Error saving image {output_image_path}: {e}")
-
+            
+        # End of loop turn
+        end_time = time.perf_counter() # Mide tiempo  de ejecución
+        elapsed_time = end_time - start_time
+        history_time.append(elapsed_time)
     print(f"\nCLAHE applied to all images in '{dataset_path}'. Processed images saved to '{output_path}'.")
 
 def main():
@@ -105,8 +116,12 @@ def main():
             print("Invalid tile grid size format. Using default (8, 8).")
     else:
         tile_grid_size = (8, 8)
-
+    
     apply_clahe_to_dataset(dataset_path, output_path, clip_limit, tile_grid_size)
+    
+    # At the end, after loop finishes
+    average_time = sum(history_time) / len(history_time) if history_time else 0
+    print(f"⏰ Tiempo promedio de procesamiento por archivo: {average_time:.3f} segundos")
 
 if __name__ == "__main__":
     main()
