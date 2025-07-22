@@ -21,6 +21,13 @@ This development work is based on the thesis "Application of Computer Vision Mod
 
 **Date:** June 2025, Autonomous City of Buenos Aires, Argentina
 
+### Thesis Document (Full Report)
+
+The complete academic thesis report is available in PDF format. This document provides an in-depth explanation of the methodology, experiments, and results.
+
+* [**Spanish Version (original)**](https://github.com/MLsound/ML-VisionRice-Dev/blob/main/informe_tesis_vision_artificial_conteo_arroz.pdf)
+* [**English Version (AI translation)**](https://github.com/MLsound/ML-VisionRice-Dev/blob/main/thesis_report_computer_vision_rice_counting.pdf)
+
 ## Project Description
 
 This project involves the development of an artificial vision pipeline designed for automating the counting of plants in rice crops. The solution leverages deep learning techniques, primarily the YOLO (You Only Look Once) architecture, for object detection and counting.
