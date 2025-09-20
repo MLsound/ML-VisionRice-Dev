@@ -114,23 +114,32 @@ ML-VisionRice-Dev/
 The project requires **Python 3.x** and the following libraries, which can be installed via `pip` or `conda`:
 
 * `albumentations`
-* `opencv-python` and `opencv-python-headless` (for OpenCV functionalities)
-* `torch`, `torchaudio`, and `torchvision` (for PyTorch)
-* `ultralytics` and `ultralytics-thop` (for YOLOv8)
-* `numpy`
-* `pandas`
-* `matplotlib`
-* `scikit-learn`
-* `scikit-image`
-* `scipy`
-* `Pillow` (PIL)
-* `tqdm`
-* `PyYAML`
-* `requests`
-* `seaborn`
-* `plotly`
+* `argparse`
+* `copy`
+* `exifread`
+* `fnmatch`
+* `gc`
 * `geopy`
-* `ExifRead`
+* `humanize`
+* `IPython`
+* `json`
+* `logging`
+* `matplotlib`
+* `numpy`
+* `opencv-python`
+* `optuna`
+* `pandas`
+* `Pillow`
+* `pickle`
+* `plotly`
+* `scikit-image`
+* `scikit-learn`
+* `scipy`
+* `seaborn`
+* `shutil`
+* `torch`
+* `tqdm`
+* `ultralytics`
 * `jupyter_client` and `ipykernel` (for Jupyter notebooks)
 
 ### Installation
