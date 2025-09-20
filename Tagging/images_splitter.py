@@ -12,12 +12,10 @@ import shutil
 import sys
 import unicodedata
 import warnings
-from itertools import product
 from datetime import datetime
 
 # Third-party library imports
 import cv2 as cv
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from tqdm import tqdm

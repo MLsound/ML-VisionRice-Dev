@@ -13,7 +13,6 @@
 
 import os
 import cv2
-import numpy as np
 from tqdm import tqdm
 import time
 history_time = []
